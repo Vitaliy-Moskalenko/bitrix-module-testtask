@@ -9,6 +9,7 @@ use \Bitrix\Main\IO\File;
 use \Bitrix\Main\IO\InvalidPathException;
 use \Bitrix\Main\Loader;
 use \Bitrix\Main\Localization\Loc;
+use \Bitrix\Main\EventManager;
 use \Bitrix\Main\ModuleManager;
 
 Loc::loadMessages(__FILE__);
@@ -71,13 +72,6 @@ class testtask_facilityoperator extends CModule {
 		) {
 			Base::getInstance('\Testtask\FacilityOperator\FacilityTable')->createDbTable();
 		}
-		
-		if (!Application::getConnection(\Testtask\FacilityOperator\FacilityTable::getConnectionName())
-				->isTableExists(Base::getInstance('\Testtask\FacilityOperator\FacilityOperatorTable')->getDBTableName())
-		) {
-			Base::getInstance('\Testtask\FacilityOperator\FacilityOperatorTable')->createDbTable();
-		}		
-		
 	}
 	
 	function UnInstallDB() {
@@ -89,10 +83,6 @@ class testtask_facilityoperator extends CModule {
 		
 		Application::getConnection(\Testtask\FacilityOperator\FacilityTable::getConnectionName())
 			->queryExecute('DROP TABLE IF EXISTS '.Base::getInstance('\Testtask\FacilityOperator\FacilityTable')
-			->getDBTableName());
-			
-		Application::getConnection(\Testtask\FacilityOperator\FacilityOperatorTable::getConnectionName())
-			->queryExecute('DROP TABLE IF EXISTS '.Base::getInstance('\Testtask\FacilityOperator\FacilityOperatorTable')
 			->getDBTableName());
 		
 		Option::delete($this->MODULE_ID);
@@ -149,9 +139,13 @@ class testtask_facilityoperator extends CModule {
 		return true;		
 	}
 	
-	function InststallEvents() {}
+	function InststallEvents() {
+		RegisterModuleDependences("main", "OnUserDelete", $this->MODULE_ID, '\Testtask\FacilityOperator\Event', 'eventHandler');
+	}
 	
-	function UnInstallEvents() {}
+	function UnInstallEvents() {
+		UnRegisterModuleDependences("main", "OnUserDelete", $this->MODULE_ID, '\Testtask\FacilityOperator\Event', 'eventHandler');
+	}
 	
 	function DoInstall() {
 		global $APPLICATION;

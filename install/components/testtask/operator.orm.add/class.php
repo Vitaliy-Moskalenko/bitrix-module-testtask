@@ -22,6 +22,7 @@ class OperatorOrmAdd extends CBitrixComponent {
 	public function addMockOperator($addUserId = 1) {
 		return OperatorTable::add(array(
 			'DATE_CREATED' => new Type\Datetime('05.09.2022 00:00:00'),
+			'FACILITY_ID' => 1,
 			'ACTIVE' => 'Y',
 			'ACTIVE_TO' => new Type\Datetime('05.09.2028 00:00:00'),
 			'USER_ID' => $addUserId,

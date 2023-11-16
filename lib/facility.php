@@ -4,6 +4,7 @@ namespace Testtask\FacilityOperator;
 
 use \Bitrix\Main\Entity;
 use \Bitrix\Main\Type;
+use Bitrix\Main\ORM\Fields\Relations\OneToMany;
 
 
 class FacilityTable extends Entity\DataManager {
@@ -25,7 +26,8 @@ class FacilityTable extends Entity\DataManager {
 			new Entity\IntegerField('ID', array(
 				'primary' => true,
 				'autocomplete' => true,
-			)),			
+			)),	
+			(new OneToMany('OPERATOR', OperatorTable::class, 'FACILITY'))->configureJoinType('inner')
 			new Entity\DatetimeField('DATE_CREATED', array(
 				'required' => true,
 			)),	

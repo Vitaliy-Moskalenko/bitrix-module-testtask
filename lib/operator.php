@@ -4,6 +4,8 @@ namespace Testtask\FacilityOperator;
 
 use \Bitrix\Main\Entity;
 use \Bitrix\Main\Type;
+use \Bitrix\Main\ORM\Fields\Relations\Reference;
+use \Bitrix\Main\ORM\Query\Join;
 
 
 class OperatorTable extends Entity\DataManager {
@@ -25,7 +27,13 @@ class OperatorTable extends Entity\DataManager {
 			new Entity\IntegerField('ID', array(
 				'primary' => true,
 				'autocomplete' => true,
-			)),			
+			)),
+			new Entity\IntegerField('FACILITY_ID'),
+			(new Reference(
+				'FACILITY',
+				FacilityTable::class,
+				Join::on('this.FACILITY_ID', 'ref.ID')
+			))->configureJoinType('inner'), 
 			new Entity\DatetimeField('DATE_CREATED', array(
 				'dafault_value' => new Type\DateTime
 			)),	
