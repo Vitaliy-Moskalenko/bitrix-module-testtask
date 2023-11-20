@@ -27,7 +27,7 @@ class FacilityTable extends Entity\DataManager {
 				'primary' => true,
 				'autocomplete' => true,
 			)),	
-			(new OneToMany('OPERATOR', OperatorTable::class, 'FACILITY'))->configureJoinType('inner')
+			(new OneToMany('OPERATOR', OperatorTable::class, 'FACILITY'))->configureJoinType('inner'),
 			new Entity\DatetimeField('DATE_CREATED', array(
 				'required' => true,
 			)),	

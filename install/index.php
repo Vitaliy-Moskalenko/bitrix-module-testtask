@@ -9,7 +9,6 @@ use \Bitrix\Main\IO\File;
 use \Bitrix\Main\IO\InvalidPathException;
 use \Bitrix\Main\Loader;
 use \Bitrix\Main\Localization\Loc;
-use \Bitrix\Main\EventManager;
 use \Bitrix\Main\ModuleManager;
 
 Loc::loadMessages(__FILE__);
